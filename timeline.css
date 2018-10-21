@@ -1,0 +1,12 @@
+/* Style the lines by removing the fill and applying a stroke */
+.line {
+    fill: none;
+    stroke: #6699CC;
+    stroke-width: 3;
+}
+
+/* Style the dots by assigning a fill and stroke */
+.dot {
+    fill: #336699;
+    stroke: #fff;
+}
