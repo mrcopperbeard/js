@@ -2,6 +2,8 @@ var dictionary = {};
 var maxYear = 0;
 var minYear = 9999;
 var maxCount = 0;
+var dispersion = 3;
+var interval = 2 * dispersion;
 
 for (var i = 0; i < datasource.length; i++) {
     var source = datasource[i];
@@ -31,7 +33,21 @@ for (var i = 0; i < datasource.length; i++) {
     }
 }
 
-var dataset = Object.values(dictionary);
+var pureDataset = Object.values(dictionary);
+var datasetWithMocks = [];
+
+for (var i = 0; i < pureDataset.length - 1; i++) {
+    var current = pureDataset[i];
+    var next = pureDataset[i + 1];
+    datasetWithMocks.push(current);
+
+    if (next.year - current.year > interval) {
+        datasetWithMocks.push({ year: current.year + dispersion, count: 0 });
+        datasetWithMocks.push({ year: next.year - dispersion, count: 0 });
+    }
+
+    datasetWithMocks.push(next);
+}
 
 // 2. Use the margin convention practice 
 var margin = {top: 50, right: 50, bottom: 50, left: 50}
@@ -76,7 +92,7 @@ svg.append("g")
 
 // 9. Append the path, bind the data, and call the line generator 
 svg.append("path")
-    .datum(dataset) // 10. Binds data to the line 
+    .datum(datasetWithMocks) // 10. Binds data to the line 
     .attr("class", "line") // Assign a class for styling 
     .attr("d", line); // 11. Calls the line generator 
 
@@ -87,9 +103,9 @@ var tooltipDiv = d3.select("body").append("div")
 
 // 12. Appends a circle for each datapoint 
 svg.selectAll(".dot")
-    .data(dataset)
+    .data(pureDataset)
   .enter().append("circle") // Uses the enter().append() method
-    .attr("class", "dot tooltip") // Assign a class for styling
+    .attr("class", "dot") // Assign a class for styling
     .attr("cx", function(d) { return xScale(d.year) })
     .attr("cy", function(d) { return yScale(d.count) })
     .attr("r", 5)
