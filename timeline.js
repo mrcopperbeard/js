@@ -80,11 +80,30 @@ svg.append("path")
     .attr("class", "line") // Assign a class for styling 
     .attr("d", line); // 11. Calls the line generator 
 
+// Define the div for the tooltip
+var tooltipDiv = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
 // 12. Appends a circle for each datapoint 
 svg.selectAll(".dot")
     .data(dataset)
   .enter().append("circle") // Uses the enter().append() method
-    .attr("class", "dot") // Assign a class for styling
-    .attr("cx", function(d, i) { return xScale(d.year) })
+    .attr("class", "dot tooltip") // Assign a class for styling
+    .attr("cx", function(d) { return xScale(d.year) })
     .attr("cy", function(d) { return yScale(d.count) })
-    .attr("r", 5);
+    .attr("r", 5)
+    .on("mouseover", function(d) {		
+        tooltipDiv.transition()		
+            .duration(200)		
+            .style("opacity", .9);		
+        tooltipDiv.html(d.description)	
+            .style("height", d.count * 28 + 'px')
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");	
+        })					
+    .on("mouseout", function(d) {		
+        tooltipDiv.transition()		
+            .duration(500)		
+            .style("opacity", 0);	
+    });
