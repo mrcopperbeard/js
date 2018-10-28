@@ -5,7 +5,7 @@ var tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-              return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>" + "<strong>Population: </strong><span class='details'>" + format(d.population) +"</span>";
+              return "<strong>Страна: </strong><span class='details'>" + d.properties.name + "<br></span>" + "<strong>Число открытий: </strong><span class='details'>" + format(d.population) +"</span>";
             })
 
 var margin = {top: 0, right: 0, bottom: 0, left: 0},
@@ -13,8 +13,8 @@ var margin = {top: 0, right: 0, bottom: 0, left: 0},
             height = 500 - margin.top - margin.bottom;
 
 var color = d3.scaleThreshold()
-    .domain([10000,100000,500000,1000000,5000000,10000000,50000000,100000000,500000000,1500000000])
-    .range(["rgb(247,251,255)", "rgb(222,235,247)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)", "rgb(66,146,198)","rgb(33,113,181)","rgb(8,81,156)","rgb(8,48,107)","rgb(3,19,43)"]);
+    .domain([0,2,4,6,8,10])
+    .range(["rgb(247,251,255)", "rgb(66,146,198)","rgb(33,113,181)","rgb(8,81,156)","rgb(8,48,107)","rgb(3,19,43)"]);
 
 var path = d3.geoPath();
 
